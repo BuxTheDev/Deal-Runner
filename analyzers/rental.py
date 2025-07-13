@@ -3,7 +3,7 @@ from utils.ui import orange_header
 
 def run():
     key_prefix = "rental_"
-    orange_header("Rental Deal Analyzer")
+    oran("Rental Deal Analyzer")
     # the following values are just examples for the user
     purchase_price = st.number_input("Purchase Price ($)", value=250000)
     down_payment_percent = st.slider("Down Payment (%)", 0, 100, 20) #let user pick down payment percentage using a slider
