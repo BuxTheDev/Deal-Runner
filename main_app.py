@@ -55,7 +55,7 @@ elif analyzer_selected == "wholesale":
     import analyzers.wholesale as wholesale
     wholesale.run()
 elif analyzer_selected == "mtr":
-    import analyzers.mtr_analyzer as mtr
+    import analyzers.mtr as mtr
     mtr.run()
 elif analyzer_selected == "flip":
     import analyzers.fix_and_flip as flip
