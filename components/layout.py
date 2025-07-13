@@ -20,11 +20,16 @@ def two_column_inputs(left_inputs: list, right_inputs: list):
         for input_func in right_inputs:
             input_func()
 
+
 def three_column_metrics(metrics: list):
-    cols = st.columns(3)
-    for i, (label, value) in enumerate(metrics):
-        with cols[i % 3]:
-            st.metric(label, value)
+    # Split metrics into rows of 3
+    for i in range(0, len(metrics), 3):
+        row = metrics[i:i+3]
+        cols = st.columns(len(row))
+        for col, (label, value) in zip(cols, row):
+            with col:
+                st.metric(label, value)
+
 
 def horizontal_rule():
     st.markdown("<hr style='border: 0.5px solid #EEE;'>", unsafe_allow_html=True)
