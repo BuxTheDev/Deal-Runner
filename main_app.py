@@ -1,5 +1,5 @@
 import streamlit as st
-from analyzers import rental, morby_method  # Extend as you add more
+from analyzers import rental, morby_method, wholesale, brrrr, fix_and_flip, mtr, subject_to # Extend as you add more
 from components.layout import show_app_header, footer
 
 # App branding and config
@@ -17,7 +17,10 @@ menu = st.sidebar.selectbox("📂 Choose a Calculator", [
     "🏠 Rental Deal Analyzer",
     "💵 Morby Method Analyzer",
     "📦 Wholesale Deal Analyzer",
-    "🛠 BRRRR Analyzer (Coming Soon)",
+    "🛠 BRRRR Analyzer",
+    "🔨 Fix & Flip Analyzer",
+    "📄 Subject-To Analyzer",
+    "🛏️ Mid-Term Rental Analyzer"
 ])
 
 # Route to analyzer modules
@@ -28,10 +31,19 @@ elif menu == "💵 Morby Method Analyzer":
     morby_method.run()
 
 elif menu == "📦 Wholesale Deal Analyzer":
-    st.info("This calculator is still under construction. Stay tuned!")
+    wholesale.run()
 
 elif menu == "🛠 BRRRR Analyzer (Coming Soon)":
-    st.info("This calculator is still under construction. Stay tuned!")
+    brrrr.run()
+    
+elif menu == "🔨 Fix & Flip Analyzer":
+    fix_and_flip.run()
+
+elif menu == "📄 Subject-To Analyzer":
+    subject_to.run()
+
+elif menu == "🛏️ Mid-Term Rental Analyzer":
+    mtr.run()
 
 # Footer
 footer()
