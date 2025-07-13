@@ -4,7 +4,7 @@ def run():
     st.title("BRRRR Deal Analyzer")
      # --- Purchase and Rehab ---
     st.header("Buy & Rehab")
-    purchase_price = st.number_input("Purchase Price ($)", value=150000)
+    purchase_price = st.number_input("Purchase Price ($)", value=150000, key="brrrr_purchase")
     rehab_cost = st.number_input("Rehab Cost ($)", value=30000)
     holding_costs = st.number_input("Holding Costs ($)", value=5000)
 
@@ -17,7 +17,7 @@ def run():
 
      # --- Income & Expenses ---
     st.header("Rental Income & Expenses")
-    monthly_rent = st.number_input("Monthly Rent ($)", value=1800)
+    monthly_rent = st.number_input("Monthly Rent ($)", value=1800, key="brrrr_rent")
     taxes = st.number_input("Monthly Taxes ($)", value=200)
     insurance = st.number_input("Monthly Insurance ($)", value=100)
     repairs_percent = st.slider("Repairs (% of rent)", 0, 20, 5)
@@ -38,7 +38,7 @@ def run():
     if monthly_rate > 0:
         mortgage_payment = refi_amount * (monthly_rate * (1 + monthly_rate)**total_payments) / ((1 + monthly_rate)**total_payments - 1)
     else:
-        mortgage_payment = refi_amount * total_payments
+        mortgage_payment = refi_amount / total_payments
 
     # monthly expenses from rent
     repairs = monthly_rent * (repairs_percent / 100)
