@@ -1,87 +1,44 @@
 import streamlit as st
 
 def run():
-    st.title("BRRRR Deal Analyzer")
-     # --- Purchase and Rehab ---
-    st.header("Buy & Rehab")
-    purchase_price = st.number_input("Purchase Price ($)", value=150000, key="brrrr_purchase")
-    rehab_cost = st.number_input("Rehab Cost ($)", value=30000, key="brrrr_rehab_cost")
-    holding_costs = st.number_input("Holding Costs ($)", value=5000, key="brrrr_holding_costs")
+    st.header("BRRRR Deal Analyzer")
 
-    # --- after repair value and refinance ---
-    st.header("Refinance Details")
-    arv = st.number_input("After Repair Value (ARV) ($)", value=240000, key="brrrr_arv")
-    refinance_percent = st.slider("Refinance Loan % of ARV", 50, 100, 75, key="brrrr_refi_percent")
-    refi_rate = st.number_input("Refi Interest Rate (%)", value=6.5, key="brrrr_refi_rate")
-    refi_term_years = st.number_input("Refi Loan Term (Years)", value=30, key="brrrr_refi_term")
+    key_prefix = "brrrr_"
 
-     # --- Income & Expenses ---
-    st.header("Rental Income & Expenses")
-    monthly_rent = st.number_input("Monthly Rent ($)", value=1800, key="brrrr_rent")
-    taxes = st.number_input("Monthly Taxes ($)", value=200, key="brrrr_taxes")
-    insurance = st.number_input("Monthly Insurance ($)", value=100, key="brrrr_insurance")
-    repairs_percent = st.slider("Repairs (% of rent)", 0, 20, 5, key="brrrr_repairs")
-    mgmt_percent = st.slider("Property Management (% of rent)", 0, 20, 8, key="brrrr_mgmt")
-    vacancy_percent = st.slider("Vacancy (% of rent)", 0, 20, 5, key="brrrr_vacancy")
+    # Section: Purchase & Rehab
+    purchase_price = st.number_input("Purchase Price ($)", value=100000, key=f"{key_prefix}purchase_price")
+    rehab_costs = st.number_input("Rehab Costs ($)", value=25000, key=f"{key_prefix}rehab_costs")
+    closing_costs = st.number_input("Closing Costs ($)", value=5000, key=f"{key_prefix}closing_costs")
+    holding_costs = st.number_input("Holding Costs ($)", value=3000, key=f"{key_prefix}holding_costs")
 
-    # --- calculations below ---
-    # total momey invested into the deal
-    total_cash_in = purchase_price + rehab_cost + holding_costs
+    total_investment = purchase_price + rehab_costs + closing_costs + holding_costs
+    st.metric("Total Cash Invested", f"${total_investment:,.2f}")
 
-    # refi loan based on ARV
-    refi_amount = arv * (refinance_percent / 100)
+    # Section: After Repair Value (ARV) & Refinance
+    arv = st.number_input("After Repair Value (ARV) ($)", value=160000, key=f"{key_prefix}arv")
+    refinance_ltv = st.slider("Refinance LTV (%)", min_value=50, max_value=100, value=75, key=f"{key_prefix}ltv")
 
-    # mortgage deets
-    monthly_rate = (refi_rate / 100) / 12
-    total_payments = refi_term_years * 12
+    loan_amount = arv * (refinance_ltv / 100)
+    cash_out = loan_amount - total_investment
+    st.metric("Refinance Loan Amount", f"${loan_amount:,.2f}")
+    st.metric("Cash Out / Left In Deal", f"${cash_out:,.2f}")
 
-    if monthly_rate > 0:
-        mortgage_payment = refi_amount * (monthly_rate * (1 + monthly_rate)**total_payments) / ((1 + monthly_rate)**total_payments - 1)
-    else:
-        mortgage_payment = refi_amount / total_payments
+    # Section: Monthly Income & Expenses
+    rent = st.number_input("Monthly Rent ($)", value=1500, key=f"{key_prefix}rent")
+    mortgage_payment = st.number_input("Monthly Mortgage Payment ($)", value=800, key=f"{key_prefix}mortgage")
+    taxes = st.number_input("Monthly Taxes ($)", value=150, key=f"{key_prefix}taxes")
+    insurance = st.number_input("Monthly Insurance ($)", value=100, key=f"{key_prefix}insurance")
+    property_management = st.number_input("Property Management (% of Rent)", value=8.0, step=0.1, key=f"{key_prefix}management_pct")
 
-    # monthly expenses from rent
-    repairs = monthly_rent * (repairs_percent / 100)
-    mgmt = monthly_rent * (mgmt_percent / 100)
-    vacancy = monthly_rent * (vacancy_percent / 100)
-    total_expenses = taxes + insurance + repairs + mgmt + vacancy + mortgage_payment
+    management_fee = rent * (property_management / 100)
+    total_expenses = mortgage_payment + taxes + insurance + management_fee
+    cash_flow = rent - total_expenses
 
-    # cash flow
-    cash_flow = monthly_rent - total_expenses
-    annual_cash_flow = cash_flow * 12
-
-    # cash pulled out or left in 
-    equity_left_in = total_cash_in - refi_amount
-    if equity_left_in < 0:
-        cash_out = abs(equity_left_in)
-        equity_left_in = 0
-    else:
-        cash_out = 0
-
-    # ROI calculation
-    cash_in = max(total_cash_in - refi_amount, 0)
-    if cash_in > 0:
-        cash_on_cash = (annual_cash_flow / cash_in) * 100
-    else:
-        cash_on_cash = 0
-
-    # --- Output ---
-    st.header("Results")
-    st.metric("Refinance Amount", f"${refi_amount:,.2f}")
-    st.metric("Mortgage Payment", f"${mortgage_payment:,.2f}")
     st.metric("Monthly Cash Flow", f"${cash_flow:,.2f}")
-    st.metric("Cash-on-Cash Return", f"{cash_on_cash:.2f}%")
 
-    with st.expander("Deal Breakdown"):
-        st.write(f"Total Cash Invested: ${total_cash_in:,.2f}")
-        st.write(f"Refi Loan: ${refi_amount:,.2f}")
-        st.write(f"Equity Left In: ${equity_left_in:,.2f}")
-        st.write(f"Cash Pulled Out: ${cash_out:,.2f}")
-        st.write(f"Repairs: ${repairs:.2f}")
-        st.write(f"Management: ${mgmt:.2f}")
-        st.write(f"Vacancy: ${vacancy:.2f}")
-        st.write(f"Taxes: ${taxes:.2f}")
-        st.write(f"Insurance: ${insurance:.2f}")
-
-if __name__ == "__main__":
-    run()
+    # Section: Cash-on-Cash Return
+    if total_investment > 0:
+        coc_return = (cash_flow * 12) / total_investment * 100
+        st.metric("Cash-on-Cash Return", f"{coc_return:.2f}%")
+    else:
+        st.warning("Total investment is 0 — cannot compute return.")

@@ -1,55 +1,34 @@
 import streamlit as st
 
 def run():
-    st.title("Fix & Flip Deal Analyzer")
+    st.header("Fix & Flip Deal Analyzer")
 
-    # --- Purchase & Rehab Info ---
-    st.header("Purchase & Renovation")
-    purchase_price = st.number_input("Purchase Price ($)", value=150000)
-    rehab_costs = st.number_input("Rehab Costs ($)", value=40000)
-    holding_costs = st.number_input("Holding Costs ($)", value=8000)
-    timeline_months = st.number_input("Holding Time (Months)", value=6)
+    key_prefix = "flip_"
 
-    # --- Exit Strategy ---
-    st.header("Exit / Sale")
-    arv = st.number_input("After Repair Value (ARV) ($)", value=250000)
-    agent_commission_percent = st.slider("Agent Commission (%)", 0, 10, 6)
-    closing_cost_percent = st.slider("Closing Costs (%)", 0, 10, 2)
-    misc_costs = st.number_input("Other Selling Costs ($)", value=1000)
+    # Section: Purchase & Rehab
+    purchase_price = st.number_input("Purchase Price ($)", value=120000, key=f"{key_prefix}purchase_price")
+    rehab_costs = st.number_input("Rehab Costs ($)", value=30000, key=f"{key_prefix}rehab_costs")
+    closing_costs = st.number_input("Closing Costs ($)", value=6000, key=f"{key_prefix}closing_costs")
+    holding_costs = st.number_input("Holding Costs ($)", value=4000, key=f"{key_prefix}holding_costs")
+    selling_costs = st.number_input("Selling Costs (% of ARV)", value=8.0, step=0.1, key=f"{key_prefix}selling_costs_pct")
 
-    # --- Calculations ---
-    total_investment = purchase_price + rehab_costs + holding_costs
+    total_investment = purchase_price + rehab_costs + closing_costs + holding_costs
+    st.metric("Total Project Cost", f"${total_investment:,.2f}")
 
-    # Commissions & sale expenses
-    agent_commission = arv * (agent_commission_percent / 100)
-    closing_costs = arv * (closing_cost_percent / 100)
-    total_selling_costs = agent_commission + closing_costs + misc_costs
+    # Section: Sale
+    arv = st.number_input("After Repair Value (ARV) ($)", value=200000, key=f"{key_prefix}arv")
+    estimated_selling_costs = arv * (selling_costs / 100)
+    net_sale_proceeds = arv - estimated_selling_costs
 
-    # Net profit = ARV - (all costs)
-    profit = arv - (total_investment + total_selling_costs)
+    st.metric("Estimated Selling Costs", f"${estimated_selling_costs:,.2f}")
+    st.metric("Net Sale Proceeds", f"${net_sale_proceeds:,.2f}")
 
-    # ROI = profit / investment
-    roi = (profit / total_investment) * 100 if total_investment > 0 else 0
+    # Profit
+    profit = net_sale_proceeds - total_investment
+    roi = (profit / total_investment * 100) if total_investment > 0 else 0
 
-    # Optional: average cost per month
-    monthly_burn = total_investment / timeline_months if timeline_months > 0 else 0
+    st.metric("Estimated Profit", f"${profit:,.2f}")
+    st.metric("Return on Investment (ROI)", f"{roi:.2f}%")
 
-    # --- Output ---
-    st.header("Results")
-    st.metric("Total Investment", f"${total_investment:,.2f}")
-    st.metric("Total Profit", f"${profit:,.2f}")
-    st.metric("ROI", f"{roi:.2f}%")
-
-    with st.expander("Expense Breakdown"):
-        st.write(f"Purchase Price: ${purchase_price:,.2f}")
-        st.write(f"Rehab Costs: ${rehab_costs:,.2f}")
-        st.write(f"Holding Costs: ${holding_costs:,.2f}")
-        st.write("---")
-        st.write(f"Agent Commission: ${agent_commission:,.2f}")
-        st.write(f"Closing Costs: ${closing_costs:,.2f}")
-        st.write(f"Misc Selling Costs: ${misc_costs:,.2f}")
-        st.write("---")
-        st.write(f"Monthly Burn Rate: ${monthly_burn:,.2f}")
-
-if __name__ == "__main__":
-    run()
+    if profit < 0:
+        st.warning("This deal is projected to lose money. Adjust your numbers.")

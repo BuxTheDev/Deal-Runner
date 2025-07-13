@@ -3,6 +3,8 @@ import streamlit as st
 def run():
     st.title("Mid-Term Rental (MTR) Analyzer")
 
+    key_prefix = "mtr_"
+
     # --- Property & Loan Info ---
     st.header("Property Details")
     purchase_price = st.number_input("Purchase Price ($)", value=250000)

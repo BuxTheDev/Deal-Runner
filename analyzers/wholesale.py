@@ -2,7 +2,7 @@ import streamlit as st
 
 def run():
     st.title("Wholesale Deal Analyzer")
-
+    key_prefix = "wholesale_"
     # --- Deal Info ---
     st.header("Property Basics")
     arv = st.number_input("After Repair Value (ARV) ($)", value=200000)

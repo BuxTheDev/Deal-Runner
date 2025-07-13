@@ -1,46 +1,40 @@
 import streamlit as st
-from components.ui_helpers import section_header, currency_input, percent_input
-from components.deal_summaries import show_summary
-from utils.constants import CURRENCY_FORMAT
 
 def run():
-    st.title("💵 Morby Method Analyzer")
+    st.header("Morby Method Analyzer")
 
-    # Section: Property Info
-    section_header("🏠 Property Details")
-    arv = currency_input("ARV", value=250000)
-    purchase_price = currency_input("Purchase Price", value=230000)
-    repair_costs = currency_input("Estimated Repairs", value=15000)
-    assignment_fee = currency_input("Assignment Fee (if applicable)", value=10000)
+    key_prefix = "morby_"
 
-    # Section: DSCR Loan
-    section_header("🏦 DSCR Loan Details")
-    dscr_loan_pct = percent_input("DSCR Loan % of Purchase Price", value=80.0)
-    dscr_rate = percent_input("DSCR Interest Rate", value=7.5)
-    dscr_term = st.number_input("DSCR Loan Term (years)", value=30)
+    # Section: Deal Numbers
+    st.subheader("🔢 Deal Breakdown")
 
-    # Section: Seller Finance
-    section_header("🤝 Seller Finance (for gap funding)")
-    seller_finance_pct = percent_input("Seller Finance % of Down Payment Gap", value=100.0)
-    seller_finance_rate = percent_input("Seller Finance Interest Rate", value=5.0)
-    seller_finance_term = st.number_input("Seller Finance Term (years)", value=5)
+    arv = st.number_input("After Repair Value (ARV)", value=250000, key=f"{key_prefix}arv")
+    purchase_price = st.number_input("Purchase Price", value=200000, key=f"{key_prefix}purchase_price")
+    dscr_ltv = st.slider("DSCR Loan-To-Value (%)", min_value=50, max_value=90, value=75, step=1, key=f"{key_prefix}ltv")
 
-    # Section: Transactional Lending
-    section_header("💸 Transactional Lending")
-    trans_fee = currency_input("Transactional Lender Fee", value=3000)
+    dscr_loan_amount = arv * (dscr_ltv / 100)
+    seller_finance_amount = st.number_input("Seller Finance Portion", value=20000, key=f"{key_prefix}seller_finance")
+    transaction_fee = st.number_input("Transactional Lender Fee / Double Close Cost", value=3000, key=f"{key_prefix}transaction_fee")
 
-    # Section: Rental Income & Ops
-    section_header("📈 Income & Expenses")
-    rent = currency_input("Monthly Rent (MTR/STR/LTR)", value=2300)
-    est_expenses = currency_input("Estimated Monthly Expenses (all-in)", value=1200)
+    total_capital_needed = seller_finance_amount + transaction_fee
 
-    # Placeholder Calculation (to be replaced with real calc engine)
-    cash_flow = rent - est_expenses - 900  # placeholder for loan P&I
-    summary = {
-        "Monthly Cash Flow": CURRENCY_FORMAT.format(cash_flow),
-        "DSCR": "1.22",  # placeholder
-        "Total Out-of-Pocket": "$30,000",
-        "Equity at Purchase": f"{CURRENCY_FORMAT.format(arv - purchase_price)}"
-    }
+    # Section: Monthly Income & Expenses
+    st.subheader("📊 Monthly Numbers")
 
-    show_summary("💡 Preliminary Deal Summary", summary)
+    rent = st.number_input("Monthly Rent", value=1800, key=f"{key_prefix}rent")
+    piti = st.number_input("Monthly PITI (existing mortgage + escrows)", value=1200, key=f"{key_prefix}piti")
+    cash_flow = rent - piti
+
+    # Section: Summary Metrics
+    st.subheader("📈 Summary")
+
+    equity = arv - purchase_price
+    st.metric("Estimated Equity at Purchase", f"${equity:,.2f}")
+
+    st.metric("Total Capital Needed", f"${total_capital_needed:,.2f}")
+    st.metric("Monthly Cash Flow", f"${cash_flow:,.2f}")
+
+    if cash_flow < 0:
+        st.warning("⚠️ This deal has negative cash flow.")
+    if equity < 0:
+        st.warning("⚠️ You're buying above ARV. Double check your numbers.")

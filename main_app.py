@@ -1,16 +1,12 @@
 import streamlit as st
 from utils.constants import LAYOUT
-from analyzers import rental, morby_method, brrrr, subject_to, wholesale, rental, fix_and_flip,mtr,
+from analyzers import rental, morby_method, brrrr, subject_to, wholesale, rental, fix_and_flip,mtr
 
 st.set_page_config(
     page_title="🏁 Deal Runner",
     layout=LAYOUT
 )
 
-# -----------------------------
-# 🖼 Hero Banner
-# -----------------------------
-st.image("assets/deal_runner_banner.jepg", use_column_width=True)
 
 st.markdown(
     "<h1 style='text-align: center; color: #FF3C00; font-family:monospace;'>DEAL RUNNER</h1>"
