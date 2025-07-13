@@ -1,0 +1,37 @@
+import streamlit as st
+from analyzers import rental, morby_method, wholesale  # Extend as you add more
+from components.layout import show_app_header, footer
+
+# App branding and config
+st.set_page_config(
+    page_title="Deal Runner",
+    page_icon="🚀",
+    layout="wide"
+)
+
+# Header
+show_app_header("🚀 Deal Runner – Ultimate Real Estate Deal Analyzer")
+
+# Sidebar menu
+menu = st.sidebar.selectbox("📂 Choose a Calculator", [
+    "🏠 Rental Deal Analyzer",
+    "💵 Morby Method Analyzer",
+    "📦 Wholesale Deal Analyzer",
+    "🛠 BRRRR Analyzer (Coming Soon)",
+])
+
+# Route to analyzer modules
+if menu == "🏠 Rental Deal Analyzer":
+    rental.run()
+
+elif menu == "💵 Morby Method Analyzer":
+    morby_method.run()
+
+elif menu == "📦 Wholesale Deal Analyzer":
+    wholesale.run()
+
+elif menu == "🛠 BRRRR Analyzer (Coming Soon)":
+    st.info("This calculator is still under construction. Stay tuned!")
+
+# Footer
+footer()
