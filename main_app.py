@@ -1,37 +1,37 @@
 import streamlit as st
-from analyzers import rental, morby_method  # Extend as you add more
-from components.layout import show_app_header, footer
+from utils.constants import LAYOUT
+from analyzers import rental, morby_method
 
-# App branding and config
+# ---------------------------------------
+# Page Configuration
+# ---------------------------------------
 st.set_page_config(
-    page_title="Deal Runner",
-    page_icon="🚀",
-    layout="wide"
+    page_title="🏡 Ultimate Deal Analyzer",
+    layout=LAYOUT
 )
 
-# Header
-show_app_header("🚀 Deal Runner – Ultimate Real Estate Deal Analyzer")
+# ---------------------------------------
+# App Title
+# ---------------------------------------
+st.title("🏡 Ultimate Deal Analyzer")
 
-# Sidebar menu
-menu = st.sidebar.selectbox("📂 Choose a Calculator", [
-    "🏠 Rental Deal Analyzer",
-    "💵 Morby Method Analyzer",
-    "📦 Wholesale Deal Analyzer",
-    "🛠 BRRRR Analyzer (Coming Soon)",
+# ---------------------------------------
+# Tabs for Each Deal Calculator
+# ---------------------------------------
+tabs = st.tabs([
+    "Rental Deal Analyzer",
+    "Morby Method Analyzer",
+    "Wholesale Deal Analyzer"
 ])
 
-# Route to analyzer modules
-if menu == "🏠 Rental Deal Analyzer":
+# ---------------------------------------
+# Calculator Routing by Tab
+# ---------------------------------------
+with tabs[0]:
     rental.run()
 
-elif menu == "💵 Morby Method Analyzer":
+with tabs[1]:
     morby_method.run()
 
-elif menu == "📦 Wholesale Deal Analyzer":
-    st.info("This calculator is still under construction. Stay tuned!")
-
-elif menu == "🛠 BRRRR Analyzer (Coming Soon)":
-    st.info("This calculator is still under construction. Stay tuned!")
-
-# Footer
-footer()
+with tabs[2]:
+    st.write("Wholesale Deal Analyzer is under construction. Stay tuned!")

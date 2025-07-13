@@ -27,6 +27,7 @@ DEFAULT_REFI_SEASONING_MONTHS = 6       # Typical seasoning period
 
 # ---------------------------------------
 # UI Formatting
+LAYOUT ='centered'  # Streamlit layout setting
 # ---------------------------------------
 
 CURRENCY_FORMAT = "${:,.2f}"
