@@ -1,5 +1,5 @@
 import streamlit as st
-from analyzers import rental, morby_method, wholesale  # Extend as you add more
+from analyzers import morby_method  # Extend as you add more
 from components.layout import show_app_header, footer
 
 # App branding and config
