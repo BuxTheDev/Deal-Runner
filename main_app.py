@@ -1,63 +1,44 @@
 import streamlit as st
 
-# Set centered layout (if not already set elsewhere)
+# Set centered layout
 st.set_page_config(page_title="Deal Runner", layout="centered")
 
-st.title("🏡 Deal Runner - Choose Your Analyzer")
+st.title("🏡 Deal Runner")
 
-# Create button grid
-col1, col2, col3, col4 = st.columns(4)
+# Analyzer Selection Dropdown
+analyzer_choice = st.selectbox(
+    "Select an Analyzer:",
+    [
+        "Rental Analyzer",
+        "Morby Method Analyzer",
+        "BRRRR Analyzer",
+        "Subject-To Analyzer",
+        "Wholesale Analyzer",
+        "Fix & Flip Analyzer",
+        "MTR Analyzer",
+        # Add more analyzers here as needed
+    ]
+)
 
-analyzer_selected = None
-
-with col1:
-    if st.button("Rental"):
-        analyzer_selected = "rental"
-with col2:
-    if st.button("Morby Method"):
-        analyzer_selected = "morby"
-with col3:
-    if st.button("BRRRR"):
-        analyzer_selected = "brrrr"
-with col4:
-    if st.button("Subject-To"):
-        analyzer_selected = "subject_to"
-
-col5, col6, col7, col8 = st.columns(4)
-
-with col5:
-    if st.button("Wholesale"):
-        analyzer_selected = "wholesale"
-with col6:
-    if st.button("MTR"):
-        analyzer_selected = "mtr"
-with col7:
-    if st.button("Fix & Flip"):
-        analyzer_selected = "flip"
-
-
-st.markdown("---")
-
-# Show the selected analyzer
-if analyzer_selected == "rental":
+# Render the selected analyzer
+if analyzer_choice == "Rental Analyzer":
     import analyzers.rental as rental
     rental.run()
-elif analyzer_selected == "morby":
+elif analyzer_choice == "Morby Method Analyzer":
     import analyzers.morby_method as morby
     morby.run()
-elif analyzer_selected == "brrrr":
+elif analyzer_choice == "BRRRR Analyzer":
     import analyzers.brrrr as brrrr
     brrrr.run()
-elif analyzer_selected == "subject_to":
+elif analyzer_choice == "Subject-To Analyzer":
     import analyzers.subject_to as subject_to
     subject_to.run()
-elif analyzer_selected == "wholesale":
+elif analyzer_choice == "Wholesale Analyzer":
     import analyzers.wholesale as wholesale
     wholesale.run()
-elif analyzer_selected == "mtr":
-    import analyzers.mtr as mtr
-    mtr.run()
-elif analyzer_selected == "flip":
+elif analyzer_choice == "Fix & Flip Analyzer":
     import analyzers.fix_and_flip as flip
     flip.run()
-
+elif analyzer_choice == "MTR Analyzer":
+    import analyzers.mtr as mtr
+    mtr.run()
