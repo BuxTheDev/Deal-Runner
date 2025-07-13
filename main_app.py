@@ -3,11 +3,37 @@ import streamlit as st
 # Set centered layout
 st.set_page_config(page_title="Deal Runner", layout="centered")
 
-st.title("🏡 Deal Runner")
+# Inject custom CSS for styling
+st.markdown("""
+    <style>
+        .big-label {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
 
-# Analyzer Selection Dropdown
+        .orange-subheader {
+            font-size: 1.1rem !important;
+            color: #ff8800 !important;
+            font-weight: 600;
+            margin-top: 1.5rem;
+        }
+
+        .stSelectbox label {
+            font-size: 1.3rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# App Title
+st.title("Deal Runner")
+
+# Custom dropdown label
+st.markdown('<div class="big-label">Select a Deal Analyzer:</div>', unsafe_allow_html=True)
+
+# Analyzer dropdown (no STR)
 analyzer_choice = st.selectbox(
-    "Select an Analyzer:",
+    "",
     [
         "Rental Analyzer",
         "Morby Method Analyzer",
@@ -15,12 +41,11 @@ analyzer_choice = st.selectbox(
         "Subject-To Analyzer",
         "Wholesale Analyzer",
         "Fix & Flip Analyzer",
-        "MTR Analyzer",
-        # Add more analyzers here as needed
+        "MTR Analyzer"
     ]
 )
 
-# Render the selected analyzer
+# Load selected analyzer
 if analyzer_choice == "Rental Analyzer":
     import analyzers.rental as rental
     rental.run()
