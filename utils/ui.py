@@ -8,7 +8,7 @@ def orange_title(text):
     st.markdown(f'<h1 style="color:#ff8800; font-size:2.2rem;">{text}</h1>', unsafe_allow_html=True)
 
 def load_custom_font():
-    with open("assets\Many Years Higher.ttf", "rb") as f:
+    with open("assets\deal_runner.ttf", "rb") as f:
         font_data = f.read()
     font_base64 = base64.b64encode(font_data).decode()
 
