@@ -1,9 +1,9 @@
 import streamlit as st
-from utils.ui import orange_header
+from utils.ui import orange_header, orange_title
 
 def run():
     key_prefix = "rental_"
-    oran("Rental Deal Analyzer")
+    orange_title("Rental Deal Analyzer") 
     # the following values are just examples for the user
     purchase_price = st.number_input("Purchase Price ($)", value=250000)
     down_payment_percent = st.slider("Down Payment (%)", 0, 100, 20) #let user pick down payment percentage using a slider
