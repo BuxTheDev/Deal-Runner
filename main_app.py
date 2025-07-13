@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.constants import LAYOUT
-from analyzers import rental, morby_method
+from analyzers import rental, morby_method, brrrr
 
 # ---------------------------------------
 # Page Configuration
@@ -21,7 +21,7 @@ st.title("🏡 Ultimate Deal Analyzer")
 tabs = st.tabs([
     "Rental Deal Analyzer",
     "Morby Method Analyzer",
-    "Wholesale Deal Analyzer"
+    "Brrrr (test)" #FIXME
 ])
 
 # ---------------------------------------
@@ -34,4 +34,4 @@ with tabs[1]:
     morby_method.run()
 
 with tabs[2]:
-    st.write("Wholesale Deal Analyzer is under construction. Stay tuned!")
+    brrrr.run()
