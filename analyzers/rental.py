@@ -1,6 +1,7 @@
 import streamlit as st
 
 def run():
+    key_prefix = "rental_"
     st.title("Rental Deal Analyzer")
     # the following values are just examples for the user
     purchase_price = st.number_input("Purchase Price ($)", value=250000)

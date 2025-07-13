@@ -1,47 +1,63 @@
 import streamlit as st
-from utils.constants import LAYOUT
-from analyzers import rental, morby_method, brrrr, subject_to, wholesale, rental, fix_and_flip,mtr
 
-st.set_page_config(
-    page_title="🏁 Deal Runner",
-    layout=LAYOUT
-)
+# Set centered layout (if not already set elsewhere)
+st.set_page_config(page_title="Deal Runner", layout="centered")
+
+st.title("🏡 Deal Runner - Choose Your Analyzer")
+
+# Create button grid
+col1, col2, col3, col4 = st.columns(4)
+
+analyzer_selected = None
+
+with col1:
+    if st.button("Rental"):
+        analyzer_selected = "rental"
+with col2:
+    if st.button("Morby Method"):
+        analyzer_selected = "morby"
+with col3:
+    if st.button("BRRRR"):
+        analyzer_selected = "brrrr"
+with col4:
+    if st.button("Subject-To"):
+        analyzer_selected = "subject_to"
+
+col5, col6, col7, col8 = st.columns(4)
+
+with col5:
+    if st.button("Wholesale"):
+        analyzer_selected = "wholesale"
+with col6:
+    if st.button("MTR"):
+        analyzer_selected = "mtr"
+with col7:
+    if st.button("Fix & Flip"):
+        analyzer_selected = "flip"
 
 
-st.markdown(
-    "<h1 style='text-align: center; color: #FF3C00; font-family:monospace;'>DEAL RUNNER</h1>"
-    "<p style='text-align: center; color: #AAAAAA;'>Run Real Estate Deals Like a Machine</p>",
-    unsafe_allow_html=True
-)
+st.markdown("---")
 
-# -----------------------------
-# Tabs Navigation
-# -----------------------------
-tabs = st.tabs([
-    "Rental Deal Analyzer",
-    "Morby Method Analyzer",
-    "Brrr Method Analyzer",
-    "Subject To Analyzer",
-    "Wholesale Deal Analyzer",
-    "rental Analyzer",
-    "Fix and Flip Analyzer",
-    "MTR Analyzer"
-])
-
-with tabs[0]:
+# Show the selected analyzer
+if analyzer_selected == "rental":
+    import analyzers.rental as rental
     rental.run()
-with tabs[1]:
-    morby_method.run()
-with tabs[2]:
+elif analyzer_selected == "morby":
+    import analyzers.morby_method as morby
+    morby.run()
+elif analyzer_selected == "brrrr":
+    import analyzers.brrrr as brrrr
     brrrr.run()
-with tabs[3]:
+elif analyzer_selected == "subject_to":
+    import analyzers.subject_to as subject_to
     subject_to.run()
-with tabs[4]:
+elif analyzer_selected == "wholesale":
+    import analyzers.wholesale as wholesale
     wholesale.run()
-with tabs[5]:
-    rental.run()
-with tabs[6]:
-    fix_and_flip.run()
-with tabs[7]:
+elif analyzer_selected == "mtr":
+    import analyzers.mtr_analyzer as mtr
     mtr.run()
+elif analyzer_selected == "flip":
+    import analyzers.fix_and_flip as flip
+    flip.run()
 
