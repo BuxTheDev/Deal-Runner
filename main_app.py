@@ -1,5 +1,5 @@
 import streamlit as st
-from analyzers import morby_method  # Extend as you add more
+from analyzers import rental, morby_method  # Extend as you add more
 from components.layout import show_app_header, footer
 
 # App branding and config
@@ -28,7 +28,7 @@ elif menu == "💵 Morby Method Analyzer":
     morby_method.run()
 
 elif menu == "📦 Wholesale Deal Analyzer":
-    wholesale.run()
+    st.info("This calculator is still under construction. Stay tuned!")
 
 elif menu == "🛠 BRRRR Analyzer (Coming Soon)":
     st.info("This calculator is still under construction. Stay tuned!")

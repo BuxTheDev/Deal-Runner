@@ -25,7 +25,7 @@ def labeled_number_input(
 def currency_input(label: str, value: float = 0.0, key: str = None) -> float:
     return labeled_number_input(
         label=f"{label} ($)",
-        value=value,
+        value=float(value),
         step=100.0,
         number_format="%.2f",
         key=key
