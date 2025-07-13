@@ -5,24 +5,24 @@ def run():
      # --- Purchase and Rehab ---
     st.header("Buy & Rehab")
     purchase_price = st.number_input("Purchase Price ($)", value=150000, key="brrrr_purchase")
-    rehab_cost = st.number_input("Rehab Cost ($)", value=30000)
-    holding_costs = st.number_input("Holding Costs ($)", value=5000)
+    rehab_cost = st.number_input("Rehab Cost ($)", value=30000, key="brrrr_rehab_cost")
+    holding_costs = st.number_input("Holding Costs ($)", value=5000, key="brrrr_holding_costs")
 
     # --- after repair value and refinance ---
     st.header("Refinance Details")
-    arv = st.number_input("After Repair Value (ARV) ($)", value=240000)
-    refinance_percent = st.slider("Refinance Loan % of ARV", 50, 100, 75)
-    refi_rate = st.number_input("Refi Interest Rate (%)", value=6.5)
-    refi_term_years = st.number_input("Refi Loan Term (Years)", value=30)
+    arv = st.number_input("After Repair Value (ARV) ($)", value=240000, key="brrrr_arv")
+    refinance_percent = st.slider("Refinance Loan % of ARV", 50, 100, 75, key="brrrr_refi_percent")
+    refi_rate = st.number_input("Refi Interest Rate (%)", value=6.5, key="brrrr_refi_rate")
+    refi_term_years = st.number_input("Refi Loan Term (Years)", value=30, key="brrrr_refi_term")
 
      # --- Income & Expenses ---
     st.header("Rental Income & Expenses")
     monthly_rent = st.number_input("Monthly Rent ($)", value=1800, key="brrrr_rent")
-    taxes = st.number_input("Monthly Taxes ($)", value=200)
-    insurance = st.number_input("Monthly Insurance ($)", value=100)
-    repairs_percent = st.slider("Repairs (% of rent)", 0, 20, 5)
-    mgmt_percent = st.slider("Property Management (% of rent)", 0, 20, 8)
-    vacancy_percent = st.slider("Vacancy (% of rent)", 0, 20, 5)
+    taxes = st.number_input("Monthly Taxes ($)", value=200, key="brrrr_taxes")
+    insurance = st.number_input("Monthly Insurance ($)", value=100, key="brrrr_insurance")
+    repairs_percent = st.slider("Repairs (% of rent)", 0, 20, 5, key="brrrr_repairs")
+    mgmt_percent = st.slider("Property Management (% of rent)", 0, 20, 8, key="brrrr_mgmt")
+    vacancy_percent = st.slider("Vacancy (% of rent)", 0, 20, 5, key="brrrr_vacancy")
 
     # --- calculations below ---
     # total momey invested into the deal
