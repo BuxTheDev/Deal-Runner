@@ -5,7 +5,7 @@ from utils.ui import styled_analyzer_title  # make sure path is correct
 st.set_page_config(page_title="Deal Runner", layout="centered")
 
 # Custom Title
-styled_analyzer_title("Deal Runner")
+styled_analyzer_title("DEAL RUNNER", "Analyze Your Deals Like a Master")
 
 # Optional dropdown to load analyzer
 analyzer_choice = st.selectbox(
