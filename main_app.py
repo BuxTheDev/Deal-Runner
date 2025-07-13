@@ -1,39 +1,15 @@
 import streamlit as st
+from utils.ui import styled_analyzer_title  # make sure path is correct
 
-# Set centered layout
+# Page setup
 st.set_page_config(page_title="Deal Runner", layout="centered")
 
-# Inject custom CSS for styling
-st.markdown("""
-    <style>
-        .big-label {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+# Custom Title
+styled_analyzer_title("Deal Runner")
 
-        .orange-subheader {
-            font-size: 1.1rem !important;
-            color: #ff8800 !important;
-            font-weight: 600;
-            margin-top: 1.5rem;
-        }
-
-        .stSelectbox label {
-            font-size: 1.3rem;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# App Title
-st.title("Deal Runner")
-
-# Custom dropdown label
-st.markdown('<div class="big-label">Select a Deal Analyzer:</div>', unsafe_allow_html=True)
-
-# Analyzer dropdown (no STR)
+# Optional dropdown to load analyzer
 analyzer_choice = st.selectbox(
-    "",
+    "Choose an Analyzer:",
     [
         "Rental Analyzer",
         "Morby Method Analyzer",
