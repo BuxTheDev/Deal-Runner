@@ -34,16 +34,14 @@ def three_column_metrics(metrics: list):
 def horizontal_rule():
     st.markdown("<hr style='border: 0.5px solid #EEE;'>", unsafe_allow_html=True)
 
+
 def analyzer_selector(options, default_index=0, key="analyzer_selector"):
-    # Inject custom styles for the selectbox
     st.markdown(f"""
         <style>
-        /* Center selected item */
         div[data-baseweb="select"] > div {{
             justify-content: center;
         }}
 
-        /* Selected item text style */
         div[data-baseweb="select"] span {{
             color: #ff8800 !important;
             font-weight: 700 !important;
@@ -51,22 +49,29 @@ def analyzer_selector(options, default_index=0, key="analyzer_selector"):
             text-align: center !important;
         }}
 
-        /* Adjust entire box padding if needed */
-        div[data-baseweb="select"] {{
-            padding: 0.5rem 1rem;
+        .dropdown-wrapper {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.2rem;
         }}
         </style>
     """, unsafe_allow_html=True)
 
-    # Center the dropdown and subtext
-    with st.container():
-        st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
-        selection = st.selectbox("Pick Your Poison:", options, index=default_index, key=key)
-        st.markdown("""
-            <div style="margin-top: 0.25rem; color: #ff8800; font-size: 0.95rem;">
-                Pick your poison wisely... 🧪
-            </div>
+    # Custom container to center and style
+    st.markdown('<div class="dropdown-wrapper">', unsafe_allow_html=True)
+    selection = st.selectbox(
+        "Pick Your Poison:",
+        options,
+        index=default_index,
+        key=key,
+        label_visibility="collapsed"
+    )
+    st.markdown("""
+        <div style="margin-top: 0.35rem; color: #ff8800; font-size: 0.95rem;">
+            Pick your poison wisely... 🧪
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
     return selection
