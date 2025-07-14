@@ -19,7 +19,7 @@ selected = layout.analyzer_selector([
     "MTR Analyzer"
 ])
 
-# Load the selected analyzer module and run it
+# Load and run selected analyzer
 if selected == "Morby Method Analyzer":
     import analyzers.morby_method as morby
     morby.run()
@@ -29,6 +29,15 @@ elif selected == "Rental Deal Analyzer":
 elif selected == "BRRRR Deal Analyzer":
     import analyzers.brrrr as brrrr
     brrrr.run()
-elif selected == "Fix and Flip":
-    import analyzers.fix_and_flip as fix_and_flip
-    fix_and_flip.run()
+elif selected == "Fix and Flip Analyzer":
+    import analyzers.fix_and_flip as flip
+    flip.run()
+elif selected == "Subject To Analyzer":
+    import analyzers.subject_to as subject_to
+    subject_to.run()
+elif selected == "Wholesale Deal Analyzer":
+    import analyzers.wholesale as wholesale
+    wholesale.run()
+elif selected == "MTR Analyzer":
+    import analyzers.mtr as mtr
+    mtr.run()
